@@ -56,29 +56,13 @@ p slow_largest_contiguous_subsum(list_3) #  => -1
 #space complexity, consider using two variables. One variable should track the 
 #largest sum so far and another to track the current sum. We'll leave the rest 
 #to you.
-def fast_largest_contiguous_subsum(list)
-    max_sum = list.first
-    current_sum = list.first
-    i = 1
-    start_index = 0
-    while i < list.length do
-        start_val = list[start_index]
-        current_val = list[i]
-        if start_val.negative?
-            if current_val > start_val
-                start_val = current_val
-                start_index = i
-                max_sum = start_val
-            end
-        else
-            current_sum += current_val
-            if current_sum.negative?
-                start_index = i + 1
-                current_sum = 0
-            end
-            max_sum = current_sum if current_sum > max_sum
-        end
-        i += 1
+def fast_largest_contiguous_subsum(nums)
+    max_sum = nums.first
+    current_sum = 0
+    (0...nums.length).each do |i|
+        current_sum += nums[i]
+        max_sum = current_sum if current_sum > max_sum
+        current_sum = 0 if current_sum.negative?
     end
     max_sum
 end
@@ -89,10 +73,10 @@ p fast_largest_contiguous_subsum(list_3) #  => -1
 #Get your story straight, and then explain your solution's time complexity to your TA.
     
     #This solution runs in linear time and constant space. The latter is easier
-    #to show: it only assigns literal values to a maximum of six variables
+    #to show: it only assigns literal values to a fixed set of variables.
     #within a single loop. The former is a bit more complex. As already noted,
     #there is a single loop, putting us at a minimum of linear time. In
     #addition, each iteration of the loop manipulates a single value from the
     #array with only addition, assignments, or comparisons. Thus, each of those
-    #operations only adds constant time to the algorithm. So, we are at linear
-    #time. 
+    #operations only adds constant time to the algorithm. So, we are still at 
+    #linear time. 
